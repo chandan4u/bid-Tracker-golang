@@ -31,7 +31,7 @@ func (redClient *RedisInstance) GetWinnerByItem(resW http.ResponseWriter, reqR *
 	winner := u.User{}
 	bidAmount := 0
 
-	// [redClient SCAN : scan redis on the basis of username and return redis key]
+	// [redClient SCAN : scan redis on the basis of item and return redis key]
 	recordIteration := redClient.RInstance.Scan(0, "*"+requestItem, 0).Iterator()
 	for recordIteration.Next() {
 

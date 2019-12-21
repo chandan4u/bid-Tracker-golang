@@ -29,7 +29,7 @@ func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *
 	// [Make Map : User struct data structure for storing all User information]
 	allBidsByUsers := make(map[string][]u.User)
 
-	// [redClient SCAN : scan redis on the basis of username and return redis key]
+	// [redClient SCAN : scan redis on the basis of item and return redis key]
 	recordIteration := redClient.RInstance.Scan(0, "*"+requestItem, 0).Iterator()
 	for recordIteration.Next() {
 
