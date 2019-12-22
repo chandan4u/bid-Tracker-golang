@@ -1,3 +1,4 @@
-[general]
-HTTP_PORT = "8000"
-REDIS_PORT = "localhost:6379"
+[Keys]
+  [Keys.project]
+    HTTP_PORT = "8000"
+    REDIS_PORT = "localhost:6379"
