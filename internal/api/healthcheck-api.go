@@ -11,8 +11,8 @@ import (
 */
 
 // HealthCheck : HealthCheck
-func (c *RedisInstance) HealthCheck(w http.ResponseWriter, r *http.Request) {
-	pingResponse := u.Ping(c.RInstance)
+func (redClient *RedisInstance) HealthCheck(w http.ResponseWriter, r *http.Request) {
+	pingResponse := u.Ping(redClient.RInstance)
 	if pingResponse["status"] != true {
 		u.Respond(w, u.Message(true, pingResponse["message"].(string)))
 		return

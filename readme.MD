@@ -25,10 +25,17 @@ Please go through the given below command to run auction bid tracker application
 - Then type docker command and make build.
 - docker build -t berlin . 
 - Once build complete, RUN docker
-- docker run -p 8080:8000 -it berlin:
+- docker run -p 8080:8000 -it berlin
 - It start serving your request on 8080 port.
 - Healthcheck -> http://localhost:8080/healthcheck
 
+
+```
+
+## Unit testing 
+
+```
+go test ./... -v  
 
 ```
 

@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	log "github.com/fatih/color"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 )
@@ -26,8 +27,12 @@ var PORT string
 
 func init() {
 	// [ LoadConfig : Load configuration from config files ]
-	configuration, _ := lib.LoadConfig()
-	PORT = configuration.Keys["project"]["HTTP_PORT"]
+	configuration, err := lib.LoadConfig()
+	if err != nil {
+		PORT = "8080"
+	} else {
+		PORT = configuration.Keys["project"]["HTTP_PORT"]
+	}
 }
 
 func main() {
@@ -37,7 +42,7 @@ func main() {
 	}
 	// [ createRouter : creating route and injecting redis client in routes. ]
 	router := createRouter()
-	fmt.Println(port)
+	log.Blue("Start serve on PORT :: %s", port)
 	server := &http.Server{
 		Addr:    ":" + port,
 		Handler: router,
@@ -80,14 +85,14 @@ func gracefulshutdown(server *http.Server) {
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
 	<-stop
 
-	fmt.Println("Shutting the server down.")
+	log.Yellow("Shutting the server down.")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer func() {
 		cancel()
 	}()
 	if err := server.Shutdown(ctx); err != nil {
-		fmt.Println(err)
+		log.Red("Something went's wrong in shutdown server :: &s", err)
 	} else {
-		fmt.Println("Server stopped")
+		log.Blue("Server Stop successfully")
 	}
 }

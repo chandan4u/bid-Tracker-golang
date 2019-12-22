@@ -2,7 +2,6 @@ package api
 
 import (
 	u "berlin/utils"
-	"encoding/json"
 	"net/http"
 )
 
@@ -57,8 +56,8 @@ func (redClient *RedisInstance) GetWinnerByItem(resW http.ResponseWriter, reqR *
 		return
 	}
 	// [Append : append current record into allBidsByUsers map User struct]
-	allBidsByUsers[recordIteration.Val()] = append(allBidsByUsers[recordIteration.Val()], winner)
+	allBidsByUsers["winner"] = append(allBidsByUsers["winner"], winner)
 
-	json.NewEncoder(resW).Encode(allBidsByUsers)
+	u.RespondWithData(resW, allBidsByUsers)
 	return
 }

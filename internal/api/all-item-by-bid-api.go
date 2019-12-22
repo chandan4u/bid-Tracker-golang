@@ -2,7 +2,6 @@ package api
 
 import (
 	u "berlin/utils"
-	"encoding/json"
 	"net/http"
 )
 
@@ -53,6 +52,6 @@ func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *
 		return
 	}
 
-	json.NewEncoder(resW).Encode(allBidsByUsers)
+	u.RespondWithData(resW, allBidsByUsers)
 	return
 }

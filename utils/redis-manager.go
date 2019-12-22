@@ -4,6 +4,7 @@ import (
 	"berlin/lib"
 	"fmt"
 
+	log "github.com/fatih/color"
 	"github.com/go-redis/redis"
 )
 
@@ -16,8 +17,12 @@ type RedisInstance struct {
 var RedisPort string
 
 func init() {
-	configuration, _ := lib.LoadConfig()
-	RedisPort = configuration.Keys["project"]["REDIS_PORT"]
+	configuration, err := lib.LoadConfig()
+	if err != nil {
+		RedisPort = "localhost:6379"
+	} else {
+		RedisPort = configuration.Keys["project"]["REDIS_PORT"]
+	}
 }
 
 // InitRedisClient : InitRedisClient
@@ -38,8 +43,9 @@ func InitRedisClient() redis.Client {
 func Ping(redClient *redis.Client) map[string]interface{} {
 	pong, err := redClient.Ping().Result()
 	if err != nil {
-		fmt.Println("Cannot Initialize Redis Client ", err)
+		log.Blue("Cannot Initialize Redis Client  %s", err)
 		return Message(false, "Cannot Initialize Redis Client")
 	}
-	return Message(false, "Redis Client Successfully Initialized . . ."+pong)
+	log.Blue("Redis Client Successfully Initialized . . . %s", pong)
+	return Message(true, "Redis Client Successfully Initialized . . ."+pong)
 }
