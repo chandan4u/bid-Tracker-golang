@@ -83,7 +83,11 @@ var DefaultConfig = Config{
 
 // LoadConfig : load config file
 func LoadConfig() (*Config, error) {
-	configFile := configDirName + "development.toml"
+	stage := "development"
+	if os.Getenv("stage") != "" {
+		stage = os.Getenv("stage")
+	}
+	configFile := configDirName + stage + ".toml"
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		return nil, err
 	} else if err != nil {

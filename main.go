@@ -29,7 +29,7 @@ func init() {
 	// [ LoadConfig : Load configuration from config files ]
 	configuration, err := lib.LoadConfig()
 	if err != nil {
-		PORT = "8080"
+		PORT = "8000"
 	} else {
 		PORT = configuration.Keys["project"]["HTTP_PORT"]
 	}
