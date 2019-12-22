@@ -15,7 +15,7 @@ You are not required to implement a GUI (or CLI) or persistent store (events are
 Test the performance of your solution.
 
 ## About solution
-This project is developed using goLang and it is containerzid application, It create all the basic setup inside container like Redis, Http server and dependences.
+This project is developed using goLang and it is containerized application, It create all the basic setup inside container like Redis, Http server and dependences.
 
 ## Installation
 
