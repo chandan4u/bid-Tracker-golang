@@ -29,12 +29,6 @@ func Respond(w http.ResponseWriter, data map[string]interface{}) {
 	json.NewEncoder(w).Encode(data)
 }
 
-// RespondWithData : [ It help to handle http respone in json format]
-func RespondWithData(w http.ResponseWriter, data map[string][]User) {
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
-}
-
 // AddBidRequestValidation : [ User request validation for fields username, item and amount ]
 func AddBidRequestValidation(reqUsername string, reqItem string, reqAmount int) map[string]interface{} {
 	if len(reqUsername) < 2 {

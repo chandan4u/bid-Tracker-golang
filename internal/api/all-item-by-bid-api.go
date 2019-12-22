@@ -26,11 +26,15 @@ func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *
 	requestItem := filterRequestParams["requestItem"].(string)
 
 	// [Make Map : User struct data structure for storing all User information]
-	allBidsByUsers := make(map[string][]u.User)
+	var allBidsByUsers = make(map[string]interface{})
+	var bidbyuser []interface{}
 
 	// [redClient SCAN : scan redis on the basis of item and return redis key]
 	recordIteration := redClient.RInstance.Scan(0, "*"+requestItem, 0).Iterator()
 	for recordIteration.Next() {
+
+		// [ Add temp Map interface to hold current redis user information ]
+		var temp = make(map[string]interface{})
 
 		// [redClient HGetAll : get all data on the basis of key value]
 		m, err := redClient.RInstance.HGetAll(recordIteration.Val()).Result()
@@ -39,19 +43,20 @@ func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *
 			return
 		}
 
-		// [MapRequestedDataIntoUser : It map all the redis key value on User struct]
-		mappedDataInUserStruct := u.MapRequestedDataIntoUser(m)
-		convertedInterface := mappedDataInUserStruct["data"].(map[string]interface{})
-		userRecords := convertedInterface["requestUserInfo"].(u.User)
-
-		// [Append : append current record into allBidsByUsers map User struct]
-		allBidsByUsers[recordIteration.Val()] = append(allBidsByUsers[recordIteration.Val()], userRecords)
+		// [ Append : Take user information form temp memory and append in bidbyuser []interface ]
+		temp["username"] = m["Username"]
+		temp["amount"] = m["Amount"]
+		bidbyuser = append(bidbyuser, temp)
 	}
+
+	// [ Assign all user information inside allBidsByUsers map[string]interface{} ]
+	allBidsByUsers[requestItem] = bidbyuser
+
 	if err := recordIteration.Err(); err != nil {
 		u.Respond(resW, u.Message(false, "Oops something went's wrong!"))
 		return
 	}
 
-	u.RespondWithData(resW, allBidsByUsers)
+	u.Respond(resW, allBidsByUsers)
 	return
 }
