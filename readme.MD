@@ -45,7 +45,7 @@ Please go through the given below command to run auction bid tracker application
 - docker exec -it CONTAINER_ID bash
 - Then run test case : go test ./... -v  
 ```
-### Run locally unit test
+### Run locally
 ```
 - Install redis on you computer
 - brew install redis
