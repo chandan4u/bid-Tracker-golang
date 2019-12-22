@@ -52,6 +52,8 @@ Please go through the given below command to run auction bid tracker application
 - redis-server
 - Run redis in background (redis-server --daemonize yes)
 - redis-cli ping
+- Install dependency manager for golang to manage packages. -> go get -u github.com/golang/dep/cmd/dep
+- dep ensure
 - Then run you application or unit test
 - go test ./... -v  || go run main.go 
 
@@ -61,7 +63,7 @@ Please go through the given below command to run auction bid tracker application
 
 ```
 - Step 1 ::
-   - Add bid 
+   - Add bid  - It add bid according to username, item and amount.
       	[ POST ] http://localhost:8080/api/berlin/internal/add-biding?username=daniel&amount=10&item=bitcoin
 	    params {
 		  username: daniel,
@@ -69,19 +71,19 @@ Please go through the given below command to run auction bid tracker application
 		  amount: 10
 	    }
 - Step 2 ::
-   - Get Bid by User
+   - Get Bid by User - Get bids on the basis of username, It return all bids that user have.
          [ POST ] http://localhost:8000/api/berlin/internal/all-bids-by-user?username=daniel
 	     params {
 		   username: daniel
 	     }
 - Step 3 ::
-    - Get Bid by Item
-          [ POST ] http://localhost:8080/api/berlin/internal/all-item-by-bid?item=bitcoin
+    - Get Bid by Item - Get bids on the basis of item, It return all bids that item have.
+          [ POST ] http://localhost:8080/api/berlin/internal//all-bids-by-item?item=bitcoin
 	      params {
 		    item: bitcoin
 	      }
 - Step 4 ::
-     - Get Winner
+     - Get Winner - It return minimum amount bided username and amount for an item.  
 	      [ POST ] http://localhost:8080/api/berlin/internal/winner-by-item?item=bitcoin
 	      params {
 		    item: bitcoin

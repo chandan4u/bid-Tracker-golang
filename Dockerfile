@@ -1,12 +1,12 @@
 # We specify the base image we need for our
 # go application
 FROM golang:latest 
-# We create an /app directory within our
+# We create an /go/src/berlin directory within our
 # image that will hold our application source
 # files
 RUN mkdir /go/src/berlin
 # We copy everything in the root directory
-# into our /app directory
+# into our /go/src/berlin directory
 RUN go get -u github.com/golang/dep/cmd/dep
 ADD . /go/src/berlin
 COPY ./Gopkg.toml /go/src/berlin

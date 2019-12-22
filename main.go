@@ -61,8 +61,8 @@ func createRouter() *mux.Router {
 	// [ PathPrefix : Added path prefix for routes ]
 	subrouter := router.PathPrefix("/api/berlin/internal/").Subrouter()
 	subrouter.HandleFunc("/add-biding", redisHandlerClient.AddBiding).Methods("POST")
-	subrouter.HandleFunc("/all-bids-by-user", redisHandlerClient.GetAllBidByUser).Methods("POST")
-	subrouter.HandleFunc("/all-item-by-bid", redisHandlerClient.GetAllItemByBid).Methods("POST")
+	subrouter.HandleFunc("/all-bids-by-user", redisHandlerClient.GetAllBidsByUser).Methods("POST")
+	subrouter.HandleFunc("/all-bids-by-item", redisHandlerClient.GetAllBidsByItem).Methods("POST")
 	subrouter.HandleFunc("/winner-by-item", redisHandlerClient.GetWinnerByItem).Methods("POST")
 
 	// [ NotFoundHandler : If request route not found throw custom message ]

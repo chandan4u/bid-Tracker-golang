@@ -13,10 +13,10 @@ import (
 	}
 */
 
-// GetAllItemByBid : Get all bids on the basis of Item.
-func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *http.Request) {
+// GetAllBidsByItem : Get all bids on the basis of Item.
+func (redClient *RedisInstance) GetAllBidsByItem(resW http.ResponseWriter, reqR *http.Request) {
 
-	// [ UserRequestProcessing ] Request parse and params validation
+	// [ UserRequestProcessing Request parse and params validation ]
 	requestProcessingStatus := u.ItemRequestProcessing(reqR)
 	if requestProcessingStatus["status"] != true {
 		u.Respond(resW, u.Message(false, requestProcessingStatus["message"].(string)))
@@ -25,18 +25,18 @@ func (redClient *RedisInstance) GetAllItemByBid(resW http.ResponseWriter, reqR *
 	filterRequestParams := requestProcessingStatus["data"].(map[string]interface{})
 	requestItem := filterRequestParams["requestItem"].(string)
 
-	// [Make Map : User struct data structure for storing all User information]
+	// [ Make Map : User struct data structure for storing all User information ]
 	var allBidsByUsers = make(map[string]interface{})
 	var bidbyuser []interface{}
 
-	// [redClient SCAN : scan redis on the basis of item and return redis key]
+	// [ redClient SCAN : scan redis on the basis of item and return redis key ]
 	recordIteration := redClient.RInstance.Scan(0, "*"+requestItem, 0).Iterator()
 	for recordIteration.Next() {
 
 		// [ Add temp Map interface to hold current redis user information ]
 		var temp = make(map[string]interface{})
 
-		// [redClient HGetAll : get all data on the basis of key value]
+		// [ redClient HGetAll : get all data on the basis of key value ]
 		m, err := redClient.RInstance.HGetAll(recordIteration.Val()).Result()
 		if err != nil {
 			u.Respond(resW, u.Message(false, "Oops something went's wrong!"))

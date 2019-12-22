@@ -13,8 +13,8 @@ import (
 	}
 */
 
-// GetAllBidByUser : Get all items on the basis of username.
-func (redClient *RedisInstance) GetAllBidByUser(resW http.ResponseWriter, reqR *http.Request) {
+// GetAllBidsByUser : Get all items on the basis of username.
+func (redClient *RedisInstance) GetAllBidsByUser(resW http.ResponseWriter, reqR *http.Request) {
 
 	// [ UserRequestProcessing ] Request parse and params validation
 	requestProcessingStatus := u.UserRequestProcessing(reqR)

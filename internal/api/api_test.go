@@ -79,7 +79,7 @@ func TestAddBidingAPI(t *testing.T) {
 	}
 }
 
-func TestGetAllBidByUserAPI(t *testing.T) {
+func TestGetAllBidsByUserAPI(t *testing.T) {
 	data := url.Values{}
 	data.Set("username", "d")
 	req, err := http.NewRequest("POST", "/api/berlin/internal/all-bids-by-user", strings.NewReader(data.Encode()))
@@ -90,7 +90,7 @@ func TestGetAllBidByUserAPI(t *testing.T) {
 	client := newTestRedis()
 	redisHandlerClient := &api.RedisInstance{RInstance: &client}
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(redisHandlerClient.GetAllBidByUser)
+	handler := http.HandlerFunc(redisHandlerClient.GetAllBidsByUser)
 	handler.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
